@@ -9,8 +9,8 @@
 > - Cleaning the comments by removing irrelevant information like emojis, punctuation, and excessive whitespace.
 > - Standardizing text by converting everything to lowercase and potentially stemming or lemmatization (converting words to their root form).
 - **Analysis:**
-o	Sentiment analysis: Classifying comments as positive, negative, or neutral to understand the overall viewer reception of the video.
-	Utilize sentiment analysis APIs like Google Cloud Natural Language API or Amazon Comprehend.
+> - Sentiment analysis: Classifying comments as positive, negative, or neutral to understand the overall viewer reception of the video.
+> > * Utilize sentiment analysis APIs like Google Cloud Natural Language API or Amazon Comprehend.
 o	Topic modeling: Identifying the most frequent topics discussed in the comments to understand what aspects of the video resonate with viewers.
 	Utilize NLP libraries like spaCy or Gensim for topic modeling techniques like Latent Dirichlet Allocation (LDA).
 o	Engagement metrics: Analyzing the number of likes, dislikes, and replies for each comment to identify the most engaging comments and potential discussion threads.
