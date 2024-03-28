@@ -1,14 +1,14 @@
 ## **youTube-comments-Analyzer**
-**Project Goal: ** Develop a tool (youTube-comments-Analyzer) to analyze and understand the sentiment, topics, and engagement of comments on YouTube videos.
+**Project Goal:** Develop a tool (youTube-comments-Analyzer) to analyze and understand the sentiment, topics, and engagement of comments on YouTube videos.
 ### **Functionalities:**
-•	Data Collection:
-o	Users can specify a YouTube video URL.
-o	The tool can collect comments from the video using either a safe method (manual copy-paste) or a more automated method requiring caution (web scraping with adherence to YouTube's terms of service).
-o	The YouTube Data API (preferred method) can be integrated for programmatic comment retrieval, requiring some technical setup.
-•	Data Preprocessing:
-o	Cleaning the comments by removing irrelevant information like emojis, punctuation, and excessive whitespace.
-o	Standardizing text by converting everything to lowercase and potentially stemming or lemmatization (converting words to their root form).
-•	Analysis:
+- **Data Collection:**
+> - Users can specify a YouTube video URL.
+> - The tool can collect comments from the video using either a safe method (manual copy-paste) or a more automated method requiring caution (web scraping with adherence to YouTube's terms of service).
+> - The YouTube Data API (preferred method) can be integrated for programmatic comment retrieval, requiring some technical setup.
+-	**Data Preprocessing:**
+> - Cleaning the comments by removing irrelevant information like emojis, punctuation, and excessive whitespace.
+> - Standardizing text by converting everything to lowercase and potentially stemming or lemmatization (converting words to their root form).
+- **Analysis:**
 o	Sentiment analysis: Classifying comments as positive, negative, or neutral to understand the overall viewer reception of the video.
 	Utilize sentiment analysis APIs like Google Cloud Natural Language API or Amazon Comprehend.
 o	Topic modeling: Identifying the most frequent topics discussed in the comments to understand what aspects of the video resonate with viewers.
