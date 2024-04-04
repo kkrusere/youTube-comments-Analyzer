@@ -50,19 +50,20 @@ with col3:
 
 st.markdown("----")
 
-video = ""
-title = ""
-thumbnail_url = ""
-view_count = ""
-like_count =""
-date_posted = ""
-description = ""
+video = None
+title = None
+thumbnail_url = None
+view_count = None
+like_count = None
+date_posted = None
+youtube = None
+description = None
 
 ###############################################################################################
 ######### Have a video URL
 if video_url:
     # Extract video ID from URL
-    video_id = video_url.split('=')[-1]
+    video_id = video_url.split('=', 1)[-1]
 
     # YouTube API key
     api_key = st.secrets["YouTubeAPI_key"]
@@ -117,10 +118,15 @@ with col3:
         st.write(f"View count: {view_count}")
         st.write(f"Like count: {like_count}")
 
-#############################################################################
+#######################################################**************getting some comments**************##################################################
+
+
+###########################################################################################################################################################
+st.markdown("----")
+
 ## Have a Topic
 # Define the search term
-search_term = st.text_input("Enter Topic:", key="YOUR_TOPIC")
+search_term = st.text_input("Enter Topic:", key="Electric Vehicles")
 
 
 # Search for videos
@@ -138,7 +144,18 @@ for video in response["items"]:
     video_ids.append(video["id"]["videoId"])
     video_titles.append(video["snippet"]["title"])
 
-# Print the top 10 video titles
-for i, title in enumerate(video_titles, start=1):
-    st.write(f"{i}. {title}")
-    st.write(f"URL: https://www.youtube.com/watch?v={video_ids[i-1]}")
+if search_term:
+    col1, col2, col3= st.columns((1,.1,1))
+
+    with col1:
+        # Print the first 5 video titles and URLs
+        for i, title in enumerate(video_titles[:5], start=1):
+            st.write(f"{i}. {title}")
+            st.write(f"URL: https://www.youtube.com/watch?v={video_ids[i-1]}")
+    with col2:
+        pass
+    with col3:
+        # Print the last half of video titles and URLs
+        for i, title in enumerate(video_titles[len(video_titles)//2:], start=6):
+            st.write(f"{i}. {title}")
+            st.write(f"URL: https://www.youtube.com/watch?v={video_ids[len(video_titles)//2 + i - 6]}")
