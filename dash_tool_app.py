@@ -12,6 +12,14 @@ st.set_page_config( page_title="YouTube Comment Analyzer",
                     layout="wide"
  )
 
+import platform
+
+# Get Python version
+python_version = platform.python_version()
+
+# Print Python version on Streamlit
+st.write(f"Python Version: {python_version}")
+
 col1, col2, col3 = st.columns((.1,1,.1))
 
 with col1:
