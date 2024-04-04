@@ -154,7 +154,7 @@ driver = webdriver.Firefox(options=opts)
 data = []
 
 try:
-    wait = WebDriverWait(driver, 3)
+    wait = WebDriverWait(driver, 5)
 
     # Open the YouTube video
     driver.get("https://www.youtube.com/watch?v=cZlsZwcIgpc")
@@ -162,7 +162,7 @@ try:
     # Scroll down to load comments
     for item in range(200):
         wait.until(EC.visibility_of_element_located((By.TAG_NAME, "body"))).send_keys(Keys.END)
-        time.sleep(2)
+        time.sleep(5)
 
     # Get all comments
     for comment in wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#content"))):
@@ -173,7 +173,7 @@ finally:
     driver.quit() 
 
 st.write(len(data))
-st.write(data[8:20])
+st.write(data)
 
 ###########################################################################################################################################################
 st.markdown("----")
