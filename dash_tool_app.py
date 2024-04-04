@@ -149,7 +149,7 @@ opts.add_argument("--headless")
 driver = webdriver.Firefox(options=opts)
 
 
-##########################################################   https://www.youtube.com/watch?v=ybl8IvhGAJ4
+##########################################################   
 
 data = []
 
@@ -157,7 +157,7 @@ try:
     wait = WebDriverWait(driver, 1)
 
     # Open the YouTube video
-    driver.get("https://www.youtube.com/watch?v=ybl8IvhGAJ4")
+    driver.get("https://www.youtube.com/watch?v=O9SGkC5UDE4")
 
     # Scroll down to load comments
     for item in range(200):
