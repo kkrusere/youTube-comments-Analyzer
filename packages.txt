@@ -1,5 +1,1 @@
-chromium
-chromium-driver
-build-essential
-pkg-config
-default-libmysqlclient-dev
+firefox-esr

@@ -1,3 +1,5 @@
+import os, sys
+
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
@@ -127,6 +129,25 @@ with col3:
         st.write(f"Like count: {like_count}")
 
 #######################################################**************getting some comments**************##################################################
+from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
+
+@st.experimental_singleton
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.9/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+_ = installff()
+
+opts = FirefoxOptions()
+opts.add_argument("--headless")
+driver = webdriver.Firefox(options=opts)
+
+
+driver.get('http://example.com')
+st.write(driver.page_source)
+
+
 
 
 ###########################################################################################################################################################
