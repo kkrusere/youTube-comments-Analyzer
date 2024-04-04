@@ -128,23 +128,23 @@ st.markdown("----")
 # Define the search term
 search_term = st.text_input("Enter Topic:", key="Electric Vehicles")
 
-
-# Search for videos
-response = youtube.search().list(
-    q=search_term,
-    type="video",
-    part="id,snippet",
-    maxResults=10
-).execute()
-
-# Extract video IDs and titles
-video_ids = []
-video_titles = []
-for video in response["items"]:
-    video_ids.append(video["id"]["videoId"])
-    video_titles.append(video["snippet"]["title"])
-
 if search_term:
+    # Search for videos
+    response = youtube.search().list(
+        q=search_term,
+        type="video",
+        part="id,snippet",
+        maxResults=10
+    ).execute()
+
+    # Extract video IDs and titles
+    video_ids = []
+    video_titles = []
+    for video in response["items"]:
+        video_ids.append(video["id"]["videoId"])
+        video_titles.append(video["snippet"]["title"])
+
+
     col1, col2, col3= st.columns((1,.1,1))
 
     with col1:
