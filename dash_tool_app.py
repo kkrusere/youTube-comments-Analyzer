@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
+import datetime
 
 import googleapiclient.discovery
 
@@ -22,7 +23,7 @@ with col2:
                 "perspective, topics, and engagement of YouTube video comments. It collects and preprocesses comments, performs "
                 "sentiment analysis and topic modeling, and visualizes findings through an interactive dashboard. Beneficial for "
                 "content creators, marketers, and researchers. </b></i></p>", unsafe_allow_html=True)
-    st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/comments_analyzer.jpg?raw=1' width=600/></center>", unsafe_allow_html=True)
+    st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/comments_analyzer.jpg?raw=1' width=300/></center>", unsafe_allow_html=True)
 
 
 with col3:
@@ -49,6 +50,16 @@ with col3:
 
 st.markdown("----")
 
+video = ""
+title = ""
+thumbnail_url = ""
+view_count = ""
+like_count =""
+date_posted = ""
+description = ""
+
+###############################################################################################
+######### Have a video URL
 if video_url:
     # Extract video ID from URL
     video_id = video_url.split('=')[-1]
@@ -64,6 +75,8 @@ if video_url:
         part="snippet,statistics",
         id=video_id
     ).execute()
+#############################################################################################
+    
 
     # Extract required information
     video = response["items"][0]
@@ -74,10 +87,58 @@ if video_url:
     date_posted = video["snippet"]["publishedAt"]
     description = video["snippet"]["description"]
 
-    # Display video details
-    st.title(title)
-    st.image(thumbnail_url, caption="Thumbnail")
-    st.write(f"View count: {view_count}")
-    st.write(f"Like count: {like_count}")
-    st.write(f"Date posted: {date_posted}")
-    st.write(f"Description: {description}")
+
+    ####################
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    if video_url:
+        # Display video details
+        st.title(title)
+
+        date_object = datetime.datetime.strptime(date_posted, "%Y-%m-%dT%H:%M:%SZ")
+        # Format the date object
+        date_formatted = date_object.strftime("%Y-%m-%d %H:%M:%S")
+
+        st.write(f"Date posted: {date_formatted}")
+        # Split the description by newlines
+        paragraphs = description.split("\n")
+        # Get the first paragraph
+        first_paragraph = paragraphs[0]
+
+        st.write(f"Description: {first_paragraph}")
+        
+with col2:
+    pass
+
+with col3:
+    if video_url:
+        st.markdown(F"<center><img src={thumbnail_url} width=300/></center>", unsafe_allow_html=True)
+
+        st.write(f"View count: {view_count}")
+        st.write(f"Like count: {like_count}")
+
+#############################################################################
+## Have a Topic
+# Define the search term
+search_term = st.text_input("Enter Topic:", key="YOUR_TOPIC")
+
+
+# Search for videos
+response = youtube.search().list(
+    q=search_term,
+    type="video",
+    part="id,snippet",
+    maxResults=10
+).execute()
+
+# Extract video IDs and titles
+video_ids = []
+video_titles = []
+for video in response["items"]:
+    video_ids.append(video["id"]["videoId"])
+    video_titles.append(video["snippet"]["title"])
+
+# Print the top 10 video titles
+for i, title in enumerate(video_titles, start=1):
+    st.write(f"{i}. {title}")
+    st.write(f"URL: https://www.youtube.com/watch?v={video_ids[i-1]}")
