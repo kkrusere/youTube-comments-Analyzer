@@ -170,7 +170,7 @@ try:
 
 finally:
     # Close the WebDriver session
-    driver.quit()
+    driver.quit() 
 
 st.write(data[10])
 
