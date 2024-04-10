@@ -34,7 +34,7 @@ st.set_page_config(page_title="YouTube_comment_Analysis_Dash_App", page_icon="",
 
 
 with st.sidebar:
-    choose = option_menu("Dash Menu", ["About the Project", "Video Summery Stats", "Topic Search", "Sentiment Analysis", "WordCloud"],
+    choose = option_menu("Dash Menu", ["About the Project", "Video Summary Stats", "Topic Search", "Sentiment Analysis", "WordCloud"],
                          icons=['','', '','', ''],
                          menu_icon="youtube", default_index=0,
                          styles={
@@ -79,13 +79,13 @@ if choose == "About the Project":
         st.markdown("Kuzi Rusere")
         
 
-elif choose == "Video Summery Stats":
+elif choose == "Video Summary Stats":
     col1, col2 = st.columns( [0.8, 0.2])
     with col1:               # To display the header text using css style
         st.markdown(""" <style> .font {
         font-size:35px ; font-family: 'Cooper Black'; color: black;} 
         </style> """, unsafe_allow_html=True)
-        st.markdown('<p class="font">Video Summery Stats</p>', unsafe_allow_html=True)
+        st.markdown('<p class="font">Video Summary Stats</p>', unsafe_allow_html=True)
     keywords = ["Sentiment-Analysis"] # this is going to be our keyword 
 
 
