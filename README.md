@@ -3,7 +3,7 @@
 ### **Functionalities:**
 - **Data Collection:**
 > - Users can specify a YouTube video URL.
-> - The tool can collect comments from the video using either a safe method (manual copy-paste) or a more automated method requiring caution (web scraping with adherence to YouTube's terms of service).
+> - The tool can collect comments from the video using either a safe method (manual copy-paste) or a more automated method requiring caution (web scraping with adherence to YouTube's terms of service). 
 > - The YouTube Data API (preferred method) can be integrated for programmatic comment retrieval, requiring some technical setup.
 -	**Data Preprocessing:**
 > - Cleaning the comments by removing irrelevant information like emojis, punctuation, and excessive whitespace.
