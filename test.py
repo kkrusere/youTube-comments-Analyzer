@@ -1,12 +1,12 @@
 
 from streamlit_option_menu import option_menu
 import streamlit as st
-import plotly.express as px
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
+# import plotly.express as px
+# from plotly.subplots import make_subplots
+# import plotly.graph_objects as go
 
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
+# import matplotlib.pyplot as plt
+# from wordcloud import WordCloud
 
 import googleapiclient.discovery
 
@@ -27,23 +27,23 @@ st.set_page_config( page_title="YouTube Comment Analyzer",
 
 import platform
 
-import json
-from bs4 import BeautifulSoup
-import pandas as pd
-import datetime 
-import random
-# Import date class from datetime module
-from datetime import date
+# import json
+# from bs4 import BeautifulSoup
+# import pandas as pd
+# import datetime 
+# import random
+# # Import date class from datetime module
+# from datetime import date
 
 import datetime
 #import config
 
-import pickle as pkle
-import os.path
+# import pickle as pkle
+# import os.path
 
 from streamlit_server_state import server_state, server_state_lock
 
-import requests
+# import requests
 import streamlit.components.v1 as components
 
 import platform
