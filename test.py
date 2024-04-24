@@ -8,6 +8,25 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+import googleapiclient.discovery
+
+
+# YouTube API key
+api_key = st.secrets["YouTubeAPI_key"]
+
+# Create YouTube API client
+youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=api_key)
+
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
+st.set_page_config( page_title="YouTube Comment Analyzer",
+                    page_icon= "random",
+                    layout="wide"
+ )
+
+import platform
+
 import json
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -27,11 +46,13 @@ from streamlit_server_state import server_state, server_state_lock
 import requests
 import streamlit.components.v1 as components
 
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import platform
 
+# Get Python version
+python_version = platform.python_version()
 
-st.set_page_config(page_title="YouTube_comment_Analysis_Dash_App", page_icon="", layout="wide")
-
+# Print Python version on Streamlit
+st.write(f"Python Version: {python_version}")
 
 with st.sidebar:
     choose = option_menu("Dash Menu", ["About the Project", "Video Summary Stats", "Topic Search", "Sentiment Analysis", "WordCloud"],
@@ -44,6 +65,7 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#636EFA"},
     }
     )
+
 
 
 if choose == "About the Project":
@@ -88,25 +110,190 @@ elif choose == "Video Summary Stats":
         st.markdown('<p class="font">Video Summary Stats</p>', unsafe_allow_html=True)
     keywords = ["Sentiment-Analysis"] # this is going to be our keyword 
 
+    
+    st.markdown("---")
+    ######################################################################
+    col1, col2, col3 = st.columns((.1,1,.1))
 
+    with col1:
+        st.write("")
+
+    with col2:
+        # Input field for video URL
+        video_url = st.text_input("Enter YouTube Video URL:", key="video_url_input")
+
+    with col3:
+        st.write("")
 
     st.markdown("---")
     ######################################################################
+
+    video = None
+    title = None
+    thumbnail_url = None
+    view_count = None
+    like_count = None
+    date_posted = None
+    youtube = None
+    description = None
+    response = None
+
+    
+    ######### Have a video URL
+    if video_url != "":
+        # Extract video ID from URL
+        video_id = video_url.split('=', 1)[-1]
+
+        # YouTube API key
+        api_key = st.secrets["YouTubeAPI_key"]
+
+        # Create YouTube API client
+        youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=api_key)
+   
+        # Request video details
+        response = youtube.videos().list(
+            part="snippet,statistics",
+            id=video_id
+        ).execute()
+#############################################################################################
+    
+
+        # Extract required information
+        video = response["items"][0]
+        title = video["snippet"]["title"]
+        thumbnail_url = video["snippet"]["thumbnails"]["maxres"]["url"]
+        view_count = video["statistics"]["viewCount"]
+        like_count = video["statistics"]["likeCount"]
+        commentCount = video["statistics"]["commentCount"]
+        date_posted = video["snippet"]["publishedAt"]
+        description = video["snippet"]["description"]
+
+
+   ####################
+        col1, col2, col3= st.columns((1,.1,1))
+        with col1:
+            if video_url:
+                # Display video details
+                st.title(title)
+
+                date_object = datetime.datetime.strptime(date_posted, "%Y-%m-%dT%H:%M:%SZ")
+                # Format the date object
+                date_formatted = date_object.strftime("%Y-%m-%d %H:%M:%S")
+
+                st.write(f"Date posted: {date_formatted}")
+                # Split the description by newlines
+                paragraphs = description.split("\n")
+                # Get the first paragraph
+                first_paragraph = paragraphs[0]
+
+                st.write(f"Description: {first_paragraph}")
+                
+        with col2:
+            pass
+
+        with col3:
+            if video_url:
+                st.markdown(F"<center><img src={thumbnail_url} width=300/></center>", unsafe_allow_html=True)
+
+                st.write(f"View count: {view_count}")
+                st.write(f"Like count: {like_count}")
+
 
 
 #######################################################*******************************************************####################################################################
 
 elif choose == "Topic Search":
-    #Add a file uploader to allow users to upload their project plan file
     st.markdown(""" <style> .font {
     font-size:35px ; font-family: 'Cooper Black'; color: black;} 
     </style> """, unsafe_allow_html=True)
     st.markdown('<p class="font">Topic Search</p>', unsafe_allow_html=True)
-    #creating a list of the survey cycles that we are going to be collecting the data
-
 
     st.markdown("---")
     ######################################################################
+
+    def get_video_info(video_id):
+        # Request video details
+        response = youtube.videos().list(
+            part="snippet,statistics",
+            id=video_id
+        ).execute()
+
+        # Extract required information
+        video = response["items"][0]
+        title = video["snippet"]["title"]
+        view_count = video["statistics"]["viewCount"]
+        like_count = video["statistics"]["likeCount"]
+        commentCount = video["statistics"]["commentCount"]
+        date_posted = video["snippet"]["publishedAt"]
+        description = video["snippet"]["description"]
+
+
+        date_str = date_posted
+        date_object = datetime.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
+
+        # Format the date object
+        date_posted = date_object.strftime("%Y-%m-%d %H:%M:%S")
+
+
+        # Split the description by newlines
+        paragraphs = description.split("\n")
+
+        # Get the first paragraph
+        first_paragraph = paragraphs[0]
+
+        extracted_video_url = f"https://www.youtube.com/watch?v={video_id}"
+
+
+        # Print the information
+        st.write("Title:", title)
+        st.write("Video URL:", extracted_video_url)
+        st.write("View count:", view_count)
+        st.write("Like count:", like_count)
+        st.write("Number of Comments:", commentCount)
+        st.write("Date posted:", date_posted)
+        st.write("Description:", first_paragraph)
+        st.write("\n\n\n")
+
+    # Search for videos using the YouTube API
+    def search_videos(query, youtube = youtube):
+
+        # Request video search
+        response = youtube.search().list(
+            q=query,
+            type="video",
+            part="id,snippet",
+            maxResults=10
+        ).execute()
+
+        # Extract video IDs from search results
+        video_ids = []
+        for item in response["items"]:
+            video_ids.append(item["id"]["videoId"])
+
+        return video_ids
+
+
+    def input_topic_for_search():
+        topic_placeholder = st.empty()  # Placeholder for topic input
+
+        # Get name input
+        topic = topic_placeholder.text_input("Enter your Topic:")
+
+
+        # Clear the placeholders 
+        if topic:
+            topic_placeholder.empty()
+     
+
+
+    topic_for_search = input_topic_for_search()
+
+    video_ids = search_videos(topic_for_search)
+
+
+    for video_id in video_ids:
+        get_video_info(video_id)
+
 
 ############################################################*******************************************########################################################
 
