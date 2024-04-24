@@ -3,3 +3,4 @@ google-api-python-client==2.26.0
 selenium
 seleniumbase
 streamlit==1.4.0
+streamlit-option-menu

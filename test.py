@@ -1,5 +1,5 @@
 
-# from streamlit_option_menu import option_menu
+from streamlit_option_menu import option_menu
 import streamlit as st
 # import plotly.express as px
 # from plotly.subplots import make_subplots
