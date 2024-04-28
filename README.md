@@ -26,3 +26,7 @@
 - A functional youTube-comments-Analyzer tool (Streamlit Application/Interactive Dashboard)
 - Documentation explaining the functionalities, technical aspects, and usage instructions.
 
+
+
+
+Beyond sentiment: Explore other NLP techniques on comments, like detecting sarcasm, identifying questions, or summarizing narratives.
