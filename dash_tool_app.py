@@ -117,8 +117,7 @@ with col1:
         first_paragraph = paragraphs[0]
 
         st.write(f"Description: {first_paragraph}")
-        
-with col2:
+        "?
     pass
 
 with col3:
