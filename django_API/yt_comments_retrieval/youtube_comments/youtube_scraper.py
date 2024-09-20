@@ -216,15 +216,15 @@ def get_video_data(video_id):
     try:
         driver.get(video_url)
 
-        # Handle consent dialog and other modals (if they appear)
-        for xpath in ['//button[contains(., "I agree")]', '//button[@aria-label="Close"]']:
-            try:
-                button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-                button.click()
-            except TimeoutException:
-                print("No consent dialog found or already handled.")
-                pass 
-        
+        # Handle YouTube consent dialog if it appears
+        try:
+            consent_button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '//button[contains(., "I agree")]'))
+            )
+            consent_button.click()
+        except TimeoutException:
+            print("No consent dialog found or already handled.")
+
         # Handle any other potential modal dialogs that might pop up
         try:
             dialog_close_button = WebDriverWait(driver, 5).until(
@@ -263,11 +263,6 @@ def get_video_data(video_id):
                 'video_description': expanded_description.text,
                 'comments': get_video_comments(video_url, driver)
             }
-            # # Clean the description
-            # temp_list = [video_data]
-            # cleaned_description = clean_description(temp_list)
-            # video_data['video_description'] = cleaned_description
-
 
         except TimeoutException:
             print(f"Error processing {video_url}: Elements not found within timeout.")
